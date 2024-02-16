@@ -12,7 +12,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
-
+    collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
 
 # create Customer model
 
