@@ -1,6 +1,10 @@
 from django.db import models
 
 
+# Create Collection model
+class Collection(models.Model):
+    title = models.CharField(max_length=255)
+
 # create Product model
 class Product(models.Model):
     title = models.CharField(max_length=255)
@@ -28,3 +32,21 @@ class Customer(models.Model):
     birth_date = models.DateField(null=True)
     membership = models.CharField(
         max_length=1, choices=MEMBESHIP_CHOICES, default=MEMBERSHIP_BRONZE)
+
+# Create Order Class
+
+
+class Order(models.Model):
+    PAYMENT_STATUS_PENDING = 'P'
+    PAYMENT_STATUS_COMPLETED = 'C'
+    PAYMENT_STATUS_FAILED = 'F'
+
+    PAYMENT_STATUS_CHOICES = [
+        (PAYMENT_STATUS_PENDING, 'Pending'),
+        (PAYMENT_STATUS_COMPLETED, 'Completed'),
+        (PAYMENT_STATUS_FAILED, 'Failed'),
+    ]
+
+    placed_at = models.DateTimeField(auto_now_add=True)
+    pyment_status = models.CharField(
+        max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
