@@ -1,6 +1,11 @@
 from django.db import models
 
 
+# create Promotion model
+class Promotion(models.Model):
+    description = models.CharField(max_length=255)
+    discount = models.FloatField()
+
 # Create Collection model
 class Collection(models.Model):
     title = models.CharField(max_length=255)
