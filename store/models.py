@@ -14,6 +14,13 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
 
+# Create Address model
+
+
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+
 # create Customer model
 
 class Customer(models.Model):
@@ -32,6 +39,7 @@ class Customer(models.Model):
     birth_date = models.DateField(null=True)
     membership = models.CharField(
         max_length=1, choices=MEMBESHIP_CHOICES, default=MEMBERSHIP_BRONZE)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
 
 # Create Order Class
 class Order(models.Model):
@@ -66,8 +74,3 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
-
-
-class Address(models.Model):
-    street = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
