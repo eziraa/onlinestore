@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+# create tag model
+
+
+class Tag(models.Model):
+    label = models.CharField(max_length=255)
