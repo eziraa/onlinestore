@@ -9,6 +9,8 @@ class Promotion(models.Model):
 # Create Collection model
 class Collection(models.Model):
     title = models.CharField(max_length=255)
+    featured_product = models.ForeignKey(
+        'Product', on_delete=models.SET_NULL, null=True, related_name='+')
 
 # create Product model
 class Product(models.Model):
@@ -18,7 +20,7 @@ class Product(models.Model):
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
-    promotions = models.ManyToManyField(Promotion, related_name='Products')
+    promotions = models.ManyToManyField(Promotion, related_name='products')
 
 # Create Address model
 
@@ -34,9 +36,9 @@ class Customer(models.Model):
     MEMBERSHIP_SILVER = 'S'
     MEMBERSHIP_GOLD = 'G'
     MEMBESHIP_CHOICES = [
-        (MEMBERSHIP_BRONZE, 'Bronze')
-        (MEMBERSHIP_SILVER, 'Silver')
-        (MEMBERSHIP_GOLD, 'Gold')
+        (MEMBERSHIP_BRONZE, 'Bronze'),
+        (MEMBERSHIP_SILVER, 'Silver'),
+        (MEMBERSHIP_GOLD, 'Gold'),
     ]
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
