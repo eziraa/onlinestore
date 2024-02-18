@@ -23,6 +23,8 @@ class Product(models.Model):
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion, related_name='products')
 
+    def __str__(self):
+        return self.title
 # Create Address model
 
 
