@@ -8,9 +8,15 @@ admin.site.register(list_of_models)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['titel', 'unit_price']
+    list_display = ['title', 'unit_price', 'inventory_status']
     list_editable = ['unit_price']
     list_per_page = 10
+
+    def inventory_status(self, product):
+        if product.inventory <= 10:
+            return 'Low'
+        else:
+            return 'Ok'
 
 
 @admin.register(Customer)
