@@ -35,7 +35,7 @@ class InventoryFilter(admin.SimpleListFilter):
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ['title', 'products_count']
-
+    search_fields = ['title']
     # making the return value to be link that naviage to product
     def products_count(self, collection):
         url = (reverse('admin:store_product_changelist')
@@ -52,6 +52,8 @@ class CollectionAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     actions = ['clear_inventory']
+    autocomplete_fields = ['collection']
+
     list_display = ['title', 'unit_price', 'inventory_status', 'collection']
     list_editable = ['unit_price']
     list_per_page = 10
