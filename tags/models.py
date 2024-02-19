@@ -8,7 +8,7 @@ class TeggedItemManager(models.Manager):
     def get_tags_for(self, object_type, obj_id):
         content_type = ContentType.objects.get_for_model(object_type)
 
-        return TaggeItem.objects\
+        return TaggedItem.objects\
             .select_related('tag')\
             .filter(
                 content_type=content_type,
@@ -24,7 +24,7 @@ class Tag(models.Model):
 # create TeggedItem model
 
 
-class TaggeItem(models.Model):
+class TaggedItem(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveSmallIntegerField()

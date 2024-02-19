@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from store.models import Product, OrderItem, Order, Customer, Collection
-from tags.models import TaggeItem
+from tags.models import TaggedItem
 from django.db.models import F, Func, Value
 from django.db.models.aggregates import Avg, Count
 from django.db.models.functions import Concat
