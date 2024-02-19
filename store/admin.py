@@ -51,9 +51,11 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    actions = ['clear_inventory']
     list_display = ['title', 'unit_price', 'inventory_status', 'collection']
     list_editable = ['unit_price']
     list_per_page = 10
+
     list_filter = ['collection', 'last_update', InventoryFilter]
     ordering = ['inventory']
 
@@ -61,6 +63,15 @@ class ProductAdmin(admin.ModelAdmin):
         if product.inventory < 10:
             return 'Low'
         return 'Ok'
+
+    @admin.action(description='Clear Inventory')
+    def clear_inventory(self, request, queryset: QuerySet):
+        updated_count = queryset.update(inventory=0)
+        self.message_user(
+            request,
+            f'{updated_count} products were updated successfully'
+        )
+
 
 
 @admin.register(Customer)
