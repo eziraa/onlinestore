@@ -1,5 +1,5 @@
 from typing import Any
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models.aggregates import Count
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
@@ -69,7 +69,8 @@ class ProductAdmin(admin.ModelAdmin):
         updated_count = queryset.update(inventory=0)
         self.message_user(
             request,
-            f'{updated_count} products were updated successfully'
+            f'{updated_count} products were updated successfully',
+            messages.SUCCESS
         )
 
 
