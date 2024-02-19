@@ -12,6 +12,9 @@ class Collection(models.Model):
     featured_product = models.ForeignKey(
         'Product', on_delete=models.SET_NULL, null=True, related_name='+')
 
+    def __str__(self) -> str:
+        return self.title
+
 # create Product model
 class Product(models.Model):
     title = models.CharField(max_length=255)
