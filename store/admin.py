@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html, urlencode
 from .models import Collection, Order, OrderItem, Customer, Product, Promotion
-list_of_models = [Order, OrderItem, Promotion]
+list_of_models = [Promotion]
 admin.site.register(list_of_models)
 
 # Creating Custom Inventory filter
@@ -53,7 +53,7 @@ class CollectionAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     actions = ['clear_inventory']
     autocomplete_fields = ['collection']
-
+    search_fields = ['title']
     list_display = ['title', 'unit_price', 'inventory_status', 'collection']
     list_editable = ['unit_price']
     list_per_page = 10
@@ -90,3 +90,14 @@ class CustomerAdmin(admin.ModelAdmin):
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         return super().get_queryset(request).annotate(orders=Count('order'))
 
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    autocomplete_fields = ['product']
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
+    inlines = [OrderItemInline]
+    list_display = ['id', 'placed_at', 'customer']

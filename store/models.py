@@ -57,6 +57,9 @@ class Customer(models.Model):
         max_length=1, choices=MEMBESHIP_CHOICES, default=MEMBERSHIP_BRONZE)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
 
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
 # Create Order Class
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
