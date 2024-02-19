@@ -94,6 +94,9 @@ class CustomerAdmin(admin.ModelAdmin):
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     autocomplete_fields = ['product']
+    min_num = 1
+    max_num = 10
+    extra = 1
 
 
 @admin.register(Order)
