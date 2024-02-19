@@ -7,14 +7,12 @@ from django.http import HttpRequest
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
-from tags.models import TaggeItem
 from .models import Collection, Order, OrderItem, Customer, Product, Promotion
-list_of_models = [Promotion]
-admin.site.register(list_of_models)
+
+# Registering Promotion model
+admin.site.register(Promotion)
 
 # Creating Custom Inventory filter
-
-
 class InventoryFilter(admin.SimpleListFilter):
     title = 'Inventory'
     parameter_name = 'inventory'
@@ -34,6 +32,7 @@ class InventoryFilter(admin.SimpleListFilter):
 
         return queryset
 
+# Registering  Collection model and creating CollectionAdmin
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ['title', 'products_count']
@@ -50,8 +49,6 @@ class CollectionAdmin(admin.ModelAdmin):
         return super().get_queryset(request).annotate(products_count=Count('product'))
 
 
-class TagInline(GenericTabularInline):
-    model = TaggeItem
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     actions = ['clear_inventory']
@@ -60,7 +57,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'unit_price', 'inventory_status', 'collection']
     list_editable = ['unit_price']
     list_per_page = 10
-    inlines = [TagInline]
     list_filter = ['collection', 'last_update', InventoryFilter]
     ordering = ['inventory']
 
@@ -99,7 +95,7 @@ class OrderItemInline(admin.TabularInline):
     autocomplete_fields = ['product']
     min_num = 1
     max_num = 10
-    extra = 1
+    extra = 0
 
 
 @admin.register(Order)
