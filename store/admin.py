@@ -1,11 +1,13 @@
 from typing import Any
 from django.contrib import admin, messages
 from django.db.models.aggregates import Count
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from django.db.models import Q
 from django.urls import reverse
-from django.utils.html import format_html, urlencode
+from django.utils.html import format_html
+from tags.models import TaggeItem
 from .models import Collection, Order, OrderItem, Customer, Product, Promotion
 list_of_models = [Promotion]
 admin.site.register(list_of_models)
@@ -46,9 +48,10 @@ class CollectionAdmin(admin.ModelAdmin):
     # customizing get_queryset by annotating products_count column
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(products_count=Count('product'))
-# Adding new column to the list page
 
 
+class TagInline(GenericTabularInline):
+    model = TaggeItem
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     actions = ['clear_inventory']
@@ -57,7 +60,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'unit_price', 'inventory_status', 'collection']
     list_editable = ['unit_price']
     list_per_page = 10
-
+    inlines = [TagInline]
     list_filter = ['collection', 'last_update', InventoryFilter]
     ordering = ['inventory']
 

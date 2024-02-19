@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from django.contrib.contenttypes.admin import GenericTabularInline
+# from tags.models import TaggeItem
 # create Promotion model
 class Promotion(models.Model):
     description = models.CharField(max_length=255)
@@ -14,6 +15,8 @@ class Collection(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+
 
 # create Product model
 class Product(models.Model):
